@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 from typing import Optional
+import asyncio
 
 from src.redis_client import (
     get_card_transaction_count,
@@ -92,6 +93,3 @@ async def evaluate_all_rules(
         check_card_testing_pattern(ip_address, amount),
     )
     return [r for r in rules if r is not None]
-
-
-import asyncio

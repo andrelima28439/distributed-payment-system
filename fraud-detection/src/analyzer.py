@@ -16,7 +16,7 @@ from src.redis_client import (
 )
 from src.database import (
     save_fraud_report,
-    get_detected_patterns as db_get_patterns,
+    get_detected_patterns,
     save_detected_pattern,
     save_training_data,
 )
