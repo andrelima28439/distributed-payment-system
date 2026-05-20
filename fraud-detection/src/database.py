@@ -75,7 +75,8 @@ async def save_fraud_report(transaction_id: str, card_last4: str, customer_id: s
     try:
         async with pool.acquire() as conn:
             await conn.execute("""
-                INSERT INTO fraud_history (transaction_id, card_last4, customer_id, amount, risk_score, confirmed_fraud, notes)
+                INSERT INTO fraud_history
+                (transaction_id, card_last4, customer_id, amount, risk_score, confirmed_fraud, notes)
                 VALUES ($1, $2, $3, $4, $5, $6, $7)
                 ON CONFLICT (transaction_id) DO UPDATE SET
                     confirmed_fraud = EXCLUDED.confirmed_fraud,

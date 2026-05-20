@@ -81,7 +81,7 @@ export default function ReportsPage() {
   const handleRetryAll = useCallback(() => {
     const failed = reports.filter((r) => r.status === 'failed');
     failed.forEach((r) => handleRetry(r));
-  }, [reports, handleRetry, showToast]);
+  }, [reports, handleRetry]);
 
   const handleGenerate = useCallback(() => {
     reportCounter++;

@@ -16,7 +16,6 @@ from src.redis_client import (
 )
 from src.database import (
     save_fraud_report,
-    get_detected_patterns,
     save_detected_pattern,
     save_training_data,
 )
@@ -72,7 +71,11 @@ async def analyze_transaction(
 
     risk_score = ml_model.calculate_risk_score(ml_score, rule_results)
 
-    is_fraud = risk_score > 60 or any(r.get("severity") in ("critical", "high") for r in rule_results if r.get("score", 0) >= 25)
+    is_fraud = risk_score > 60 or any(
+        r.get("severity") in ("critical", "high")
+        for r in rule_results
+        if r.get("score", 0) >= 25
+    )
 
     decision = "rejected" if is_fraud else "approved"
 

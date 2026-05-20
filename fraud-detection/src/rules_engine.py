@@ -4,7 +4,6 @@ from typing import Optional
 import asyncio
 
 from src.redis_client import (
-    get_card_transaction_count,
     increment_card_counter,
     get_last_location,
     set_last_location,

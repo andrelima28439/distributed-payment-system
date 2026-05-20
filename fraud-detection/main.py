@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from src.models import TransactionRequest, FraudReport, TransactionAnalysis
 from src.analyzer import analyze_transaction, report_fraud as analyzer_report_fraud
 from src.ml_model import FraudMLModel
+from src.redis_client import get_redis
 from src.database import get_detected_patterns as db_get_patterns
 
 logging.basicConfig(level=logging.INFO)

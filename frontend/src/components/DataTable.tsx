@@ -24,7 +24,6 @@ function SortIcon({ direction }: { direction: 'asc' | 'desc' | null }) {
   return <ChevronsUpDown className="h-4 w-4 text-gray-600" />;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function DataTable<T extends Record<string, any>>({
   columns,
   data,
