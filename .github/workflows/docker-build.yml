@@ -15,23 +15,23 @@ jobs:
       matrix:
         image:
           - name: payment-gateway
-            dockerfile: services/payment-gateway/Dockerfile
-            context: services/payment-gateway
+            dockerfile: payment-gateway/Dockerfile
+            context: payment-gateway
           - name: transaction-processor
-            dockerfile: services/transaction-processor/Dockerfile
-            context: services/transaction-processor
+            dockerfile: transaction-processor/Dockerfile
+            context: transaction-processor
           - name: fraud-detection
-            dockerfile: services/fraud-detection/Dockerfile
-            context: services/fraud-detection
+            dockerfile: fraud-detection/Dockerfile
+            context: fraud-detection
           - name: reconciliation-service
-            dockerfile: services/reconciliation-service/Dockerfile
-            context: services/reconciliation-service
+            dockerfile: reconciliation-service/Dockerfile
+            context: reconciliation-service
           - name: notification-service
-            dockerfile: services/notification-service/Dockerfile
-            context: services/notification-service
+            dockerfile: notification-service/Dockerfile
+            context: notification-service
           - name: frontend
-            dockerfile: services/frontend/Dockerfile
-            context: services/frontend
+            dockerfile: frontend/Dockerfile
+            context: frontend
     runs-on: ubuntu-latest
     permissions:
       contents: read

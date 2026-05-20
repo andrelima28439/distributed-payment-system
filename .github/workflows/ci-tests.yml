@@ -18,14 +18,14 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: services/${{ matrix.service }}
+        working-directory: ${{ matrix.service }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
-          cache-dependency-path: services/${{ matrix.service }}/package-lock.json
+          cache-dependency-path: ${{ matrix.service }}/package-lock.json
       - run: npm ci
       - run: npm run lint
       - run: npx tsc --noEmit
@@ -34,35 +34,34 @@ jobs:
         if: always()
         with:
           name: test-results-${{ matrix.service }}
-          path: services/${{ matrix.service }}/coverage/
+          path: ${{ matrix.service }}/coverage/
 
   test-python:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: services/fraud-detection
+        working-directory: fraud-detection
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
-          cache-dependency-path: services/fraud-detection/requirements.txt
+          cache-dependency-path: fraud-detection/requirements.txt
       - run: pip install -r requirements.txt
-      - run: pip install -r requirements-dev.txt
       - run: flake8 .
       - run: pytest --cov=./ --cov-report=xml
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-results-fraud-detection
-          path: services/fraud-detection/coverage.xml
+          path: fraud-detection/coverage.xml
 
   test-java:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: services/reconciliation-service
+        working-directory: reconciliation-service
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -75,4 +74,4 @@ jobs:
         if: always()
         with:
           name: test-results-reconciliation-service
-          path: services/reconciliation-service/target/surefire-reports/
+          path: reconciliation-service/target/surefire-reports/
