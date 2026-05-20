@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; color: #333; line-height: 1.6; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #dc2626; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+    .body { padding: 20px; border: 1px solid #e5e7eb; }
+    .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 12px; }
+    .alert { background: #fef2f2; padding: 16px; border-radius: 8px; border-left: 4px solid #dc2626; margin: 12px 0; }
+    .detail { margin: 8px 0; }
+    .label { font-weight: bold; color: #6b7280; }
+    .score { font-size: 20px; font-weight: bold; color: #dc2626; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Fraud Alert</h1>
+    </div>
+    <div class="body">
+      <p>Dear {{userName}},</p>
+      <div class="alert">
+        <strong>Suspicious activity detected on your account.</strong>
+      </div>
+      <div class="detail"><span class="label">Transaction ID:</span> {{transactionId}}</div>
+      <div class="detail"><span class="label">Amount:</span> {{currency}} {{amount}}</div>
+      <div class="detail"><span class="label">Merchant:</span> {{merchantName}}</div>
+      <div class="detail"><span class="label">Fraud Score:</span> <span class="score">{{fraudScore}}%</span></div>
+      <div class="detail"><span class="label">Flagged Activity:</span> {{flaggedActivity}}</div>
+      <div class="detail"><span class="label">Date:</span> {{date}}</div>
+      <p>If you did not authorize this transaction, please contact support immediately.</p>
+    </div>
+    <div class="footer">
+      <p>PayFlow Notification Service</p>
+    </div>
+  </div>
+</body>
+</html>

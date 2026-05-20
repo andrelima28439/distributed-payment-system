@@ -1,0 +1,108 @@
+name: Load Testing
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 4 * * 1"
+
+env:
+  K6_PROMETHEUS_RW_SERVER_URL: ${{ secrets.PROMETHEUS_URL }}
+  K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM: "true"
+
+jobs:
+  load-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: grafana/setup-k6-action@v1
+
+      - name: Run k6 load test - payment-gateway
+        run: >
+          k6 run
+          --out json=k6-payment-gateway.json
+          --vus 0
+          --stage 30s:100
+          --stage 300s:100
+          --stage 0s:0
+          k6/payment-gateway-test.js
+
+      - name: Run k6 load test - payment-gateway (spike)
+        run: >
+          k6 run
+          --out json=k6-payment-gateway-spike.json
+          --vus 0
+          --stage 10s:200
+          --stage 30s:200
+          --stage 10s:0
+          k6/payment-gateway-spike-test.js
+
+      - name: Run k6 load test - fraud-detection
+        run: >
+          k6 run
+          --out json=k6-fraud-detection.json
+          --vus 0
+          --stage 30s:100
+          --stage 300s:100
+          --stage 0s:0
+          k6/fraud-detection-test.js
+
+      - name: Generate performance report
+        run: |
+          echo "## Performance Report" > perf-report.md
+          echo "" >> perf-report.md
+          echo "### Payment Gateway" >> perf-report.md
+          echo '```' >> perf-report.md
+          k6 run --summary-export=k6-payment-gateway-summary.json k6/payment-gateway-test.js 2>&1 | tail -20 >> perf-report.md
+          echo '```' >> perf-report.md
+          echo "" >> perf-report.md
+          echo "### Payment Gateway (Spike)" >> perf-report.md
+          echo '```' >> perf-report.md
+          k6 run --summary-export=k6-payment-gateway-spike-summary.json k6/payment-gateway-spike-test.js 2>&1 | tail -20 >> perf-report.md
+          echo '```' >> perf-report.md
+          echo "" >> perf-report.md
+          echo "### Fraud Detection" >> perf-report.md
+          echo '```' >> perf-report.md
+          k6 run --summary-export=k6-fraud-detection-summary.json k6/fraud-detection-test.js 2>&1 | tail -20 >> perf-report.md
+          echo '```' >> perf-report.md
+
+      - name: Check SLOs
+        run: |
+          set +e
+          FAIL_SLO=false
+
+          for summary in k6-payment-gateway-summary.json k6-payment-gateway-spike-summary.json k6-fraud-detection-summary.json; do
+            if [ ! -f "$summary" ]; then
+              echo "Missing summary: $summary"
+              continue
+            fi
+            p95=$(jq -r '.metrics.http_req_duration.values."p(95)"' "$summary")
+            error_rate=$(jq -r '.metrics.http_req_failed.rate' "$summary")
+            name=$(basename "$summary" -summary.json)
+
+            echo "Checking $name: p95=${p95}ms, error_rate=${error_rate}"
+
+            if (( $(echo "$p95 > 500" | bc -l) )); then
+              echo "SLO FAIL: $name p95=${p95}ms exceeds 500ms"
+              FAIL_SLO=true
+            fi
+
+            if (( $(echo "$error_rate > 0.01" | bc -l) )); then
+              echo "SLO FAIL: $name error_rate=${error_rate} exceeds 1%"
+              FAIL_SLO=true
+            fi
+          done
+
+          if [ "$FAIL_SLO" = true ]; then
+            echo "One or more SLOs violated!"
+            exit 1
+          fi
+          echo "All SLOs passed"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: k6-results
+          path: |
+            k6-*.json
+            perf-report.md

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; color: #333; line-height: 1.6; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #10b981; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+    .body { padding: 20px; border: 1px solid #e5e7eb; }
+    .amount { font-size: 24px; font-weight: bold; color: #10b981; }
+    .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 12px; }
+    .detail { margin: 8px 0; }
+    .label { font-weight: bold; color: #6b7280; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Transaction Approved</h1>
+    </div>
+    <div class="body">
+      <p>Hello {{userName}},</p>
+      <p>Your transaction has been approved successfully.</p>
+      <div class="amount">{{currency}} {{amount}}</div>
+      <div class="detail"><span class="label">Transaction ID:</span> {{transactionId}}</div>
+      <div class="detail"><span class="label">Merchant:</span> {{merchantName}}</div>
+      <div class="detail"><span class="label">Date:</span> {{date}}</div>
+      <div class="detail"><span class="label">Status:</span> {{status}}</div>
+    </div>
+    <div class="footer">
+      <p>PayFlow Notification Service</p>
+    </div>
+  </div>
+</body>
+</html>

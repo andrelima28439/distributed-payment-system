@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; color: #333; line-height: 1.6; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #f59e0b; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+    .body { padding: 20px; border: 1px solid #e5e7eb; }
+    .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 12px; }
+    .detail { margin: 8px 0; }
+    .label { font-weight: bold; color: #6b7280; }
+    .reason { background: #fffbeb; padding: 12px; border-radius: 4px; border-left: 4px solid #f59e0b; margin: 12px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Chargeback Notification</h1>
+    </div>
+    <div class="body">
+      <p>Hello {{userName}},</p>
+      <p>A chargeback has been filed for a transaction on your account.</p>
+      <div class="detail"><span class="label">Dispute ID:</span> {{disputeId}}</div>
+      <div class="detail"><span class="label">Transaction ID:</span> {{transactionId}}</div>
+      <div class="detail"><span class="label">Amount:</span> {{currency}} {{amount}}</div>
+      <div class="detail"><span class="label">Merchant:</span> {{merchantName}}</div>
+      <div class="detail"><span class="label">Date Filed:</span> {{date}}</div>
+      <div class="reason"><strong>Reason:</strong> {{chargebackReason}}</div>
+      <p>We are reviewing this dispute and will provide updates as more information becomes available.</p>
+    </div>
+    <div class="footer">
+      <p>PayFlow Notification Service</p>
+    </div>
+  </div>
+</body>
+</html>

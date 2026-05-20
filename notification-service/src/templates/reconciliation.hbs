@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; color: #333; line-height: 1.6; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #6366f1; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+    .body { padding: 20px; border: 1px solid #e5e7eb; }
+    .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 12px; }
+    .detail { margin: 8px 0; }
+    .label { font-weight: bold; color: #6b7280; }
+    .discrepancy { background: #eef2ff; padding: 16px; border-radius: 8px; margin: 12px 0; }
+    .amount-mismatch { font-size: 18px; color: #6366f1; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Reconciliation Discrepancy</h1>
+    </div>
+    <div class="body">
+      <p>Hello {{userName}},</p>
+      <p>A discrepancy was detected during the reconciliation process.</p>
+      <div class="detail"><span class="label">Settlement Batch:</span> {{settlementBatchId}}</div>
+      <div class="detail"><span class="label">Discrepancy Type:</span> {{discrepancyType}}</div>
+      <div class="discrepancy">
+        <div class="detail"><span class="label">Expected Amount:</span> <span class="amount-mismatch">{{currency}} {{expectedAmount}}</span></div>
+        <div class="detail"><span class="label">Actual Amount:</span> <span class="amount-mismatch">{{currency}} {{actualAmount}}</span></div>
+      </div>
+      <div class="detail"><span class="label">Status:</span> {{status}}</div>
+      <div class="detail"><span class="label">Date:</span> {{date}}</div>
+      <p>Our team has been notified and will investigate this discrepancy.</p>
+    </div>
+    <div class="footer">
+      <p>PayFlow Notification Service</p>
+    </div>
+  </div>
+</body>
+</html>

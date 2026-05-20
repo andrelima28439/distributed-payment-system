@@ -1,0 +1,69 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: payment-system-ingress
+  namespace: payment-system
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - payment-gateway.example.com
+        - api.example.com
+        - app.example.com
+      secretName: payment-system-tls
+  rules:
+    - host: payment-gateway.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: payment-gateway-service
+                port:
+                  number: 8080
+    - host: api.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: transaction-processor-service
+                port:
+                  number: 8081
+          - path: /fraud
+            pathType: Prefix
+            backend:
+              service:
+                name: fraud-detection-service
+                port:
+                  number: 8000
+          - path: /reconciliation
+            pathType: Prefix
+            backend:
+              service:
+                name: reconciliation-service-service
+                port:
+                  number: 8080
+          - path: /notifications
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service-service
+                port:
+                  number: 3000
+    - host: app.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 3000

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-system-config
+  namespace: payment-system
+data:
+  POSTGRES_HOST: postgres-service
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: payments
+  REDIS_HOST: redis-service
+  REDIS_PORT: "6379"
+  RABBITMQ_HOST: rabbitmq-service
+  RABBITMQ_PORT: "5672"
+  RABBITMQ_MANAGEMENT_PORT: "15672"
+  FRAUD_DETECTION_URL: http://fraud-detection-service:8000
+  RECONCILIATION_SERVICE_URL: http://reconciliation-service:8080
+  NOTIFICATION_SERVICE_URL: http://notification-service:3000
+  PAYMENT_GATEWAY_URL: http://payment-gateway-service:8080
+  TRANSACTION_PROCESSOR_URL: http://transaction-processor-service:8081
+  FRONTEND_URL: http://frontend-service:3000
+  LOG_LEVEL: info
+  ENVIRONMENT: production

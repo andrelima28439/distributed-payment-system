@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Arial, sans-serif; color: #333; line-height: 1.6; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #ef4444; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+    .body { padding: 20px; border: 1px solid #e5e7eb; }
+    .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 12px; }
+    .detail { margin: 8px 0; }
+    .label { font-weight: bold; color: #6b7280; }
+    .reason { background: #fef2f2; padding: 12px; border-radius: 4px; color: #dc2626; margin: 12px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Transaction Declined</h1>
+    </div>
+    <div class="body">
+      <p>Hello {{userName}},</p>
+      <p>Your transaction could not be processed.</p>
+      <div class="detail"><span class="label">Transaction ID:</span> {{transactionId}}</div>
+      <div class="detail"><span class="label">Merchant:</span> {{merchantName}}</div>
+      <div class="detail"><span class="label">Amount:</span> {{currency}} {{amount}}</div>
+      <div class="detail"><span class="label">Date:</span> {{date}}</div>
+      <div class="reason">{{reason}}</div>
+      <p>Please review your payment method and try again, or contact your bank for more information.</p>
+    </div>
+    <div class="footer">
+      <p>PayFlow Notification Service</p>
+    </div>
+  </div>
+</body>
+</html>
