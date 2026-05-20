@@ -9,6 +9,7 @@ on:
 jobs:
   snyk-scan:
     strategy:
+      fail-fast: false
       matrix:
         service:
           - payment-gateway
@@ -55,6 +56,7 @@ jobs:
 
   npm-audit:
     strategy:
+      fail-fast: false
       matrix:
         service:
           - payment-gateway

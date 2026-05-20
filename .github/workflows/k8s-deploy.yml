@@ -29,18 +29,18 @@ jobs:
           chmod 600 $HOME/.kube/config
 
       - name: Apply namespace
-        run: kubectl apply -f k8s/namespace.yaml
+        run: kubectl apply -f kubernetes/namespace.yaml
 
       - name: Apply ConfigMap and Secrets
         run: |
-          kubectl apply -f k8s/configmap.yaml
-          kubectl apply -f k8s/secret.yaml
+          kubectl apply -f kubernetes/configmap.yaml
+          kubectl apply -f kubernetes/secrets.yaml
 
       - name: Apply database deployments
         run: |
-          kubectl apply -f k8s/postgres-deployment.yaml
-          kubectl apply -f k8s/redis-deployment.yaml
-          kubectl apply -f k8s/rabbitmq-deployment.yaml
+          kubectl apply -f kubernetes/postgres-deployment.yaml
+          kubectl apply -f kubernetes/redis-deployment.yaml
+          kubectl apply -f kubernetes/rabbitmq-deployment.yaml
 
       - name: Wait for databases
         run: |
@@ -53,16 +53,16 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           for dep in payment-gateway transaction-processor fraud-detection reconciliation-service notification-service frontend; do
-            sed "s|\${IMAGE_TAG}|$IMAGE_TAG|g" k8s/${dep}-deployment.yaml | kubectl apply -f -
+            sed "s|\${IMAGE_TAG}|$IMAGE_TAG|g" kubernetes/${dep}-deployment.yaml | kubectl apply -f -
           done
 
       - name: Apply HPA and NetworkPolicies
         run: |
-          kubectl apply -f k8s/hpa.yaml
-          kubectl apply -f k8s/network-policy.yaml
+          kubectl apply -f kubernetes/hpa.yaml
+          kubectl apply -f kubernetes/network-policies.yaml
 
       - name: Apply Ingress
-        run: kubectl apply -f k8s/ingress.yaml
+        run: kubectl apply -f kubernetes/ingress.yaml
 
       - name: Verify rollout status
         run: |

@@ -9,6 +9,7 @@ on:
 jobs:
   test-js-services:
     strategy:
+      fail-fast: false
       matrix:
         service:
           - payment-gateway
